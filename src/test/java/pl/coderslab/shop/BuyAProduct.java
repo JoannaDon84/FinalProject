@@ -5,6 +5,7 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import io.cucumber.java.sk.Tak;
+import org.junit.jupiter.api.Assertions;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -121,9 +122,9 @@ public class BuyAProduct {
         File srcFile = screenshot.getScreenshotAs(OutputType.FILE);
 
         // Create destination file path
-//        LocalTime currentTime = LocalTime.now();
+        LocalTime currentTime = LocalTime.now();
 //        String currentTimeString = currentTime.toString();
-        String destFilePath = "C:/Users/joann/Praca-Koncowa z page object/src/screenshots/screenshot" +  ".png";
+        String destFilePath = "C:/Users/joann/Praca-Koncowa z page object/src/screenshots/screenshot" + currentTime.toSecondOfDay() + ".png";
 
 // Copy file to destination folder
         try {
@@ -133,11 +134,29 @@ public class BuyAProduct {
             System.out.println("Error occurred while saving screenshot: " + e.getMessage());
         }
     }
+    String totalPrice = "";
+    @And("I save total price")
+    public void iSaveTotalPrice() {
+        totalPrice = driver.findElement(By.xpath("//*[@id=\"order-items\"]/div[2]/table/tbody/tr[4]/td[2]")).getText();
+    }
+    @When("I go to the order history and details")
+    public void iGoToTheOrderHistoryAndDetails() {
+        driver.get("https://mystore-testlab.coderslab.pl/index.php?controller=history");
 
-
+    }
+    @Then("I check if there is an order")
+    public void iCheckIfThereIsAnOrder() {
+        String totalPriceCheck = driver.findElement(By.xpath("//*[@id=\"content\"]/table/tbody/tr[1]/td[2]")).getText();
+        Assertions.assertEquals(totalPrice,totalPriceCheck);
+        String status = driver.findElement(By.xpath("//*[@id=\"content\"]/table/tbody/tr[1]/td[4]/span")).getText();
+        status = status.replaceAll("\\s", "");
+        Assertions.assertEquals(status,"Awaitingcheckpayment");
+    }
     @And("I quit the page")
     public void iQuitThePage() {
         driver.quit();
     }
+
+
 
 }

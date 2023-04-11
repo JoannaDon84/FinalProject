@@ -30,11 +30,15 @@ Feature: User can buy a product
     And I add this products to a cart
     And I proceed to checkout
     Then I confirm an address
-    And I choose delivery method
+    When I choose delivery method
     And I confirm delivery
     And I choose the payment method
-    And I take a screenshot of confirmation
+    Then I take a screenshot of confirmation
+    And I save total price
+    When I go to the order history and details
+    Then I check if there is an order
     And I quit the page
+
     Examples:
       | size | number |
 #      | M    | 5      |
