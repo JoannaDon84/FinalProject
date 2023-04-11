@@ -94,7 +94,8 @@ public class BuyAProduct {
 
     @And("I choose delivery method")
     public void iChooseDeliveryMethod() {
-        driver.findElement(By.id("delivery_option_8")).sendKeys(Keys.ENTER);
+//        driver.findElement(By.id("delivery_option_8")).sendKeys(Keys.ENTER);
+        driver.findElement(By.xpath("//*[@id=\"js-delivery\"]/div/div[1]/div[1]/label/div/div[1]")).click();
     }
 
     @And("I confirm delivery")
@@ -104,7 +105,7 @@ public class BuyAProduct {
 
     @And("I choose the payment method")
     public void iChooseThePaymentMethod() {
-        driver.findElement(By.xpath("/html/body/main/section/div/div/section/div/div[1]/section[4]/div/div[2]/div[1]/div/span/input")).sendKeys(Keys.ENTER);
+        driver.findElement(By.id("payment-option-1")).click();
         driver.findElement(By.id("conditions_to_approve[terms-and-conditions]")).click();
         driver.findElement(By.cssSelector("button.btn.btn-primary.center-block")).click();
 
